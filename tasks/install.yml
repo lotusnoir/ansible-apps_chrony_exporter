@@ -1,0 +1,64 @@
+---
+- name: "Check for chrony_exporter binary"
+  ansible.builtin.stat:
+    path: '{{ chrony_exporter_install_dir }}/chrony_exporter'
+  changed_when: false
+  register: chrony_exporter_install
+
+- name: "Install tasks"
+  when: not chrony_exporter_install.stat.exists or chrony_exporter_force_install|bool
+  block:
+    - name: "Install requierements"
+      ansible.builtin.package:
+        name: ["ca-certificates", "unzip", "tar"]
+        state: present
+
+    - name: "Download chrony_exporter..."
+      ansible.builtin.get_url:
+        url: '{{ chrony_exporter_tgz_url }}'
+        dest: '{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_tgz }}'
+        timeout: '60'
+        mode: '0644'
+
+    - name: "Ensure install dir exists"
+      ansible.builtin.file:
+        path: '{{ item }}'
+        state: directory
+        mode: '0755'
+      with_items:
+        - '{{ chrony_exporter_install_dir }}'
+        - '{{ chrony_exporter_temp_dir }}/chrony_exporter'
+
+    - name: "Unarchive chrony_exporter..."
+      ansible.builtin.unarchive:
+        src: '{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_tgz }}'
+        dest: '{{ chrony_exporter_temp_dir }}/chrony_exporter'
+        extra_opts: [--strip-components=1]
+        remote_src: true
+        mode: '0644'
+
+    - name: "Copy chrony_exporter binary..."
+      ansible.builtin.copy:
+        src: '{{ chrony_exporter_temp_dir }}/chrony_exporter/chrony_exporter'
+        dest: '{{ chrony_exporter_install_dir }}/chrony_exporter'
+        remote_src: true
+        mode: '0755'
+
+    - name: "Remove temporary directory"
+      ansible.builtin.file:
+        path: '{{ chrony_exporter_temp_dir }}/chrony_exporter'
+        state: absent
+
+- name: "Create systemd for chrony_exporter"
+  ansible.builtin.template:
+    src: 'chrony_exporter.service.j2'
+    dest: '/etc/systemd/system/chrony_exporter.service'
+    mode: '0640'
+  notify: "Restart chrony_exporter"
+
+- name: "Start chrony_exporter.service"
+  ansible.builtin.service:
+    name: chrony_exporter
+    state: started
+    enabled: true
+    daemon_reload: true

@@ -1,0 +1,33 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=Prometheus chrony Exporter
+After=network-online.target
+StartLimitInterval=0
+
+[Service]
+Type=simple
+Restart=always
+ExecStart={{ chrony_exporter_install_dir }}/chrony_exporter \
+          --chrony.address={{ chrony_exporter_address }} \
+          --web.listen-address={{ chrony_exporter_port }} \
+{% if chrony_exporter_collector_sources is sameas true %}          --collector.sources \
+{% else %}           --no-collector.sources \
+{% endif %}
+{% if chrony_exporter_collector_serverstats is sameas true %}          --collector.serverstats \
+{% else %}           --no-collector.serverstats \
+{% endif %}
+{% if chrony_exporter_collector_tracking is sameas true %}          --collector.tracking \
+{% else %}           --no-collector.tracking \
+{% endif %}
+{% if chrony_exporter_collector_dns_lookup is sameas true %}          --collector.dns-lookups
+{% else %}           --no-collector.dns-lookups
+{% endif %}
+
+ExecReload=/bin/kill -HUP $MAINPID
+SyslogIdentifier=chrony_exporter
+RestartSec=1
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

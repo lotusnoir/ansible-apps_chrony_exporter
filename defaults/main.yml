@@ -1,0 +1,16 @@
+---
+# Binary install
+chrony_exporter_version: "0.10.0"
+chrony_exporter_tgz: "chrony_exporter-{{ chrony_exporter_version }}.linux-amd64.tar.gz"
+chrony_exporter_tgz_url: "https://github.com/SuperQ/chrony_exporter/releases/download/v{{ chrony_exporter_version }}/{{ chrony_exporter_tgz }}"
+chrony_exporter_temp_dir: "/tmp"
+chrony_exporter_install_dir: "/usr/local/bin"
+chrony_exporter_force_install: false
+
+# Systemd options
+chrony_exporter_address: "localhost:123"
+chrony_exporter_port: "0.0.0.0:9123"
+chrony_exporter_collector_sources: false
+chrony_exporter_collector_serverstats: false
+chrony_exporter_collector_tracking: true
+chrony_exporter_collector_dns_lookup: true
