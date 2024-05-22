@@ -9,7 +9,7 @@ User=_chrony
 ExecStart={{ chrony_exporter_install_dir }}/chrony_exporter \
           --chrony.address={{ chrony_exporter_address }} \
           --web.listen-address={{ chrony_exporter_port }} \
-          -log.level={{ chrony_exporter_loglevel }} \
+          --log.level={{ chrony_exporter_loglevel }} \
 {% if chrony_exporter_collector_sources is sameas true %}          --collector.sources \
 {% else %}           --no-collector.sources \
 {% endif %}
