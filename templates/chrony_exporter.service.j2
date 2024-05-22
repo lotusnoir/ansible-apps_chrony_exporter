@@ -5,7 +5,7 @@ Description=Prometheus chrony exporter
 
 [Service]
 Restart=always
-User=_chrony
+User={% if ansible_os_family == 'RedHat'%}chrony{% else %}_chrony{% endif %}
 ExecStart={{ chrony_exporter_install_dir }}/chrony_exporter \
           --chrony.address={{ chrony_exporter_address }} \
           --web.listen-address={{ chrony_exporter_port }} \
