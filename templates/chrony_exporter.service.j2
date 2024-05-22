@@ -1,16 +1,15 @@
 {{ ansible_managed | comment }}
 
 [Unit]
-Description=Prometheus chrony Exporter
-After=network-online.target
-StartLimitInterval=0
+Description=Prometheus chrony exporter
 
 [Service]
-Type=simple
 Restart=always
+User=_chrony
 ExecStart={{ chrony_exporter_install_dir }}/chrony_exporter \
           --chrony.address={{ chrony_exporter_address }} \
           --web.listen-address={{ chrony_exporter_port }} \
+          -log.level={{ chrony_exporter_loglevel }} \
 {% if chrony_exporter_collector_sources is sameas true %}          --collector.sources \
 {% else %}           --no-collector.sources \
 {% endif %}
@@ -23,6 +22,26 @@ ExecStart={{ chrony_exporter_install_dir }}/chrony_exporter \
 {% if chrony_exporter_collector_dns_lookup is sameas true %}          --collector.dns-lookups
 {% else %}           --no-collector.dns-lookups
 {% endif %}
+
+AmbientCapabilities=
+CapabilityBoundingSet=
+DeviceAllow=/dev/null rw
+DevicePolicy=strict
+LockPersonality=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+ReadWritePaths=/run/chrony
+RemoveIPC=true
+RestrictNamespaces=true
+RestrictRealtime=true
+SystemCallArchitectures=native
 
 ExecReload=/bin/kill -HUP $MAINPID
 SyslogIdentifier=chrony_exporter
