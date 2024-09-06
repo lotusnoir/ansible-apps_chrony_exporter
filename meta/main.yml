@@ -10,24 +10,19 @@ galaxy_info:
     - name: "Ubuntu"
       versions:
         - "focal"
-        - "bionic"
         - "jammy"
     - name: "Debian"
       versions:
-        - "buster"
         - "bullseye"
         - "bookworm"
     - name: "Rocky"
       versions:
-        - "8"
         - "9"
     - name: "OracleLinux"
       versions:
-        - "8"
         - "9"
     - name: "RedHat"
       versions:
-        - "8"
         - "9"
 
   galaxy_tags:
