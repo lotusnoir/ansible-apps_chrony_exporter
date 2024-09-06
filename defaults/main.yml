@@ -15,4 +15,3 @@ chrony_exporter_collector_sources: false
 chrony_exporter_collector_serverstats: false
 chrony_exporter_collector_tracking: true
 chrony_exporter_collector_dns_lookup: true
-
