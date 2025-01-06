@@ -21,7 +21,7 @@
 
 ## Description
 
-Configures the time server chrony exporter [chrony_exporter](https://github.com/SuperQ/chrony_exporter) 
+Configures the time server chrony exporter [chrony_exporter](https://github.com/SuperQ/chrony_exporter)
 ## Requirements
 
 none
