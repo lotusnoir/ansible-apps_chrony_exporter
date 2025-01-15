@@ -1,6 +1,6 @@
 ---
 # Binary install
-chrony_exporter_version: "0.10.0"
+chrony_exporter_version: "0.11.0"
 chrony_exporter_tgz: "chrony_exporter-{{ chrony_exporter_version }}.linux-amd64.tar.gz"
 chrony_exporter_tgz_url: "https://github.com/SuperQ/chrony_exporter/releases/download/v{{ chrony_exporter_version }}/{{ chrony_exporter_tgz }}"
 chrony_exporter_temp_dir: "/tmp"
