@@ -1,0 +1,101 @@
+---
+- name: "Get current version"
+  ansible.builtin.shell: |
+    set -o pipefail
+    {{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }} --version 2>&1 | grep -oP 'version \K[0-9.]+' | head -1
+  args:
+    executable: /bin/bash
+  changed_when: false
+  register: __installed_version
+  when: __installed_bin.stat.exists
+
+- name: "Install tasks"
+  when: (not __installed_bin.stat.exists) or (__installed_version is defined and chrony_exporter_version not in __installed_version.stdout) or chrony_exporter_install_force
+  block:
+    - name: "Create user"
+      ansible.builtin.include_tasks: create_user.yml
+      when: chrony_exporter_user != "root"
+
+    - name: "Create dirs"
+      ansible.builtin.file:
+        path: "{{ item | safe | trim }}"
+        state: directory
+        owner: "{{ chrony_exporter_user }}"
+        group: "{{ chrony_exporter_group }}"
+        mode: "0755"
+      loop:
+        - "{{ chrony_exporter_temp_dir }}/{{ role_path | basename }}"
+
+    - name: "Install requierements"
+      ansible.builtin.package:
+        name: ["ca-certificates", "unzip", "tar"]
+        state: present
+      become: true
+      register: pkg_result
+      retries: 12
+      delay: 10
+      until: pkg_result is success
+
+    - name: "Copy local binary"
+      ansible.builtin.copy:
+        src: "{{ chrony_exporter_local_files }}"
+        dest: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
+        mode: "0755"
+      when: chrony_exporter_install_origin == "local"
+
+    - name: "Download binary by host"
+      ansible.builtin.get_url:
+        url: "{{ chrony_exporter_dl_url }}"
+        dest: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
+        timeout: 60
+        mode: "0644"
+      when:
+        - chrony_exporter_install_origin == "internet"
+        - chrony_exporter_dl_executor == "host"
+
+    - name: "Download binary by localhost"
+      ansible.builtin.get_url:
+        url: "{{ chrony_exporter_dl_url }}"
+        dest: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
+        timeout: 60
+        mode: "0644"
+      delegate_to: localhost
+      when:
+        - chrony_exporter_install_origin == "internet"
+        - chrony_exporter_dl_executor == "localhost"
+
+    - name: "Copy local binary"
+      ansible.builtin.copy:
+        src: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
+        dest: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
+        mode: "0755"
+      when:
+        - chrony_exporter_install_origin == "internet"
+        - chrony_exporter_dl_executor == "localhost"
+
+    - name: "Unarchive"
+      ansible.builtin.unarchive:
+        src: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
+        dest: "{{ chrony_exporter_temp_dir }}/{{ role_path | basename }}"
+        extra_opts: [--strip-components=1]
+        remote_src: true
+        mode: "0644"
+
+    - name: "Install binary"
+      ansible.builtin.copy:
+        src: "{{ chrony_exporter_temp_dir }}/{{ role_path | basename }}/chrony_exporter"
+        dest: "{{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }}"
+        remote_src: true
+        owner: "{{ chrony_exporter_user }}"
+        group: "{{ chrony_exporter_group }}"
+        mode: "0755"
+      notify: Restart chrony_exporter
+
+    - name: "Create symlink to current version"
+      ansible.builtin.file:
+        src: "{{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }}"
+        dest: "{{ chrony_exporter_symlink_name }}"
+        state: link
+        force: true
+      notify: Restart chrony_exporter
+      when: chrony_exporter_symlink_name is defined and (chrony_exporter_symlink_name | length > 0 or chrony_exporter_symlink_name != chrony_exporter_bin_name)
