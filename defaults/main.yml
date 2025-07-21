@@ -23,14 +23,10 @@ chrony_exporter_temp_dir: "/tmp"
 # if chrony_exporter_install_origin: local
 chrony_exporter_local_files: "~/Downloads/shared-files/{{ role_path | basename }}/{{ chrony_exporter_pkg_name }}"
 
-# where is installed binary
-# if you decide to use chrony_exporter_bin_name: with version you can create a symlink to have multiple version installed. empty or same as bin_name = no symlink
-chrony_exporter_symlink_name: "{{ chrony_exporter_bin_name }}"
-
 ### Config
 chrony_exporter_chrony_address: "unix:///run/chrony/chronyd.sock"
 chrony_exporter_web_listen: "0.0.0.0"
-chrony_exporter_web_port: "9123"
+chrony_exporter_web_port: "9101"
 chrony_exporter_loglevel: "info"
 chrony_exporter_collector_sources: false
 chrony_exporter_collector_serverstats: false

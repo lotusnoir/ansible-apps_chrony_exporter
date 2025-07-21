@@ -3,3 +3,6 @@ skip_list:
   - '106'
   - '401'
   - 'schema'
+exclude_paths:
+  - molecule/default/verify.yml
+  - molecule/all/verify.yml

@@ -23,7 +23,7 @@
 
 Configures the time server chrony exporter [chrony_exporter](https://github.com/SuperQ/chrony_exporter)
 
-install time with src = 1/run 21.06s -  2/run 6.23s
+install time = 1/run 21.06s -  2/run 6.23s
 
 
 ## Requirements

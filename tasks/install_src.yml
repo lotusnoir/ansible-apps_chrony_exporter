@@ -31,10 +31,10 @@
         name: ["ca-certificates", "unzip", "tar"]
         state: present
       become: true
-      register: pkg_result
+      register: __pkg_result
       retries: 12
       delay: 10
-      until: pkg_result is success
+      until: __pkg_result is success
 
     - name: "Copy local binary"
       ansible.builtin.copy:
@@ -90,12 +90,3 @@
         group: "{{ chrony_exporter_group }}"
         mode: "0755"
       notify: Restart chrony_exporter
-
-    - name: "Create symlink to current version"
-      ansible.builtin.file:
-        src: "{{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }}"
-        dest: "{{ chrony_exporter_symlink_name }}"
-        state: link
-        force: true
-      notify: Restart chrony_exporter
-      when: chrony_exporter_symlink_name is defined and (chrony_exporter_symlink_name | length > 0 or chrony_exporter_symlink_name != chrony_exporter_bin_name)

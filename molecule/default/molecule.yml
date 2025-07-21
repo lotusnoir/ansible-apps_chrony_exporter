@@ -13,7 +13,7 @@ scenario:
     - prepare
     - converge
     - idempotence
-    # - verify
+    - verify
     - destroy
 
 platforms:
@@ -33,6 +33,7 @@ provisioner:
     ansible_python_interpreter: auto_silent
   config_options:
     defaults:
+      roles_path: "$MOLECULE_PROJECT_DIRECTORY/.."
       callbacks_enabled: timer, profile_tasks, profile_roles
       verbosity: 3
       forks: 20

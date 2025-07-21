@@ -8,7 +8,7 @@ StartLimitInterval=0
 [Service]
 User={{ chrony_exporter_user }}
 Group={{ chrony_exporter_group }}
-ExecStart={{ chrony_exporter_install_dir }}/{% if chrony_exporter_symlink_name | length > 0 or chrony_exporter_symlink_name != chrony_exporter_bin_name %}{{ chrony_exporter_symlink_name }}{% else %}{{ chrony_exporter_bin_name }}{% endif %} \
+ExecStart={{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }} \
           --chrony.address={{ chrony_exporter_chrony_address }} \
           --web.listen-address={{ chrony_exporter_web_listen }}:{{ chrony_exporter_web_port }} \
           --log.level={{ chrony_exporter_loglevel }} \

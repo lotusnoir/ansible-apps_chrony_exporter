@@ -13,8 +13,8 @@
   ansible.builtin.template:
     src: chrony_exporter.service.j2
     dest: "/lib/systemd/system/chrony_exporter.service"
-    owner: "{{ chrony_exporter_user }}"
-    group: "{{ chrony_exporter_group }}"
+    owner: "root"
+    group: "root"
     mode: "0644"
   notify: "Restart chrony_exporter"
   register: __config_systemd
