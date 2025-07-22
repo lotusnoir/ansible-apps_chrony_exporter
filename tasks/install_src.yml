@@ -9,6 +9,22 @@
   register: __installed_version
   when: __installed_bin.stat.exists
 
+- name: "Get latest tag"
+  ansible.builtin.uri:
+    url: "{{ _chrony_exporter_release_api_url }}"
+  failed_when: false
+  register: __github_latest
+  when:
+    - chrony_exporter_version == 'latest'
+    - chrony_exporter_install_origin == "internet"
+
+- name: "Replace version fact to latest"
+  ansible.builtin.set_fact:
+    chrony_exporter_version: "{{ __github_latest.json.tag_name | default(_chrony_exporter_default_version) | replace('v', '') }}"
+  when:
+    - chrony_exporter_version == 'latest'
+    - chrony_exporter_install_origin == "internet"
+
 - name: "Install tasks"
   when: (not __installed_bin.stat.exists) or (__installed_version is defined and chrony_exporter_version not in __installed_version.stdout) or chrony_exporter_install_force
   block:
