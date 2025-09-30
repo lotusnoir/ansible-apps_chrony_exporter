@@ -12,7 +12,7 @@
 - name: "Configuring systemd"
   ansible.builtin.template:
     src: chrony_exporter.service.j2
-    dest: "/lib/systemd/system/chrony_exporter.service"
+    dest: "/etc/systemd/system/chrony_exporter.service"
     owner: "root"
     group: "root"
     mode: "0644"

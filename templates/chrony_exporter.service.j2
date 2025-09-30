@@ -2,8 +2,6 @@
 
 [Unit]
 Description=Prometheus chrony exporter
-After=network-online.target
-StartLimitInterval=0
 
 [Service]
 User={{ chrony_exporter_user }}
@@ -24,32 +22,32 @@ ExecStart={{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }} \
 {% if chrony_exporter_collector_dns_lookup is sameas true %}          --collector.dns-lookups
 {% else %}           --no-collector.dns-lookups
 {% endif %}
+
+AmbientCapabilities=
+CapabilityBoundingSet=
+DeviceAllow=/dev/null rw
+DevicePolicy=strict
+LockPersonality=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+RemoveIPC=true
+RestrictNamespaces=true
+RestrictRealtime=true
+SystemCallArchitectures=native
+
 ExecReload=/bin/kill -HUP $MAINPID
-
-#AmbientCapabilities=
-#CapabilityBoundingSet=
-#DeviceAllow=/dev/null rw
-#DevicePolicy=strict
-#LockPersonality=true
-#MemoryDenyWriteExecute=true
-#NoNewPrivileges=true
-#PrivateDevices=true
-#PrivateTmp=true
-#ProtectControlGroups=true
-#ProtectHome=true
-#ProtectKernelModules=true
-#ProtectKernelTunables=true
-#ProtectSystem=strict
-#ReadWritePaths=/run/chrony
-#RemoveIPC=true
-#RestrictNamespaces=true
-#RestrictRealtime=true
-#SystemCallArchitectures=native
-
-Restart=always
 SyslogIdentifier=chrony_exporter
 RestartSec=1
-PrivateTmp=yes
+
+#PrivateTmp=yes
+#ReadWritePaths=/run/chrony
+#BindPaths=/run/chrony
 
 [Install]
 WantedBy=multi-user.target
