@@ -4,11 +4,12 @@
 Description=Prometheus chrony exporter
 
 [Service]
-User={{ chrony_exporter_user }}
-Group={{ chrony_exporter_group }}
-ExecStart={{ chrony_exporter_install_dir }}/{{ chrony_exporter_bin_name }} \
-          --chrony.address={{ chrony_exporter_chrony_address }} \
-          --web.listen-address={{ chrony_exporter_web_listen }}:{{ chrony_exporter_web_port }} \
+Restart=always
+User={% if ansible_os_family == 'RedHat'%}chrony{% else %}_chrony{% endif %}
+
+ExecStart={{ chrony_exporter_install_dir }}/chrony_exporter \
+          --chrony.address={{ chrony_exporter_address }} \
+          --web.listen-address={{ chrony_exporter_port }} \
           --log.level={{ chrony_exporter_loglevel }} \
 {% if chrony_exporter_collector_sources is sameas true %}          --collector.sources \
 {% else %}           --no-collector.sources \
@@ -31,11 +32,13 @@ LockPersonality=true
 MemoryDenyWriteExecute=true
 NoNewPrivileges=true
 PrivateDevices=true
+PrivateTmp=true
 ProtectControlGroups=true
 ProtectHome=true
 ProtectKernelModules=true
 ProtectKernelTunables=true
 ProtectSystem=strict
+ReadWritePaths=/run/chrony
 RemoveIPC=true
 RestrictNamespaces=true
 RestrictRealtime=true
@@ -44,10 +47,7 @@ SystemCallArchitectures=native
 ExecReload=/bin/kill -HUP $MAINPID
 SyslogIdentifier=chrony_exporter
 RestartSec=1
-
-#PrivateTmp=yes
-#ReadWritePaths=/run/chrony
-#BindPaths=/run/chrony
+PrivateTmp=yes
 
 [Install]
 WantedBy=multi-user.target

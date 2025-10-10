@@ -5,29 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.2.0](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/compare/v1.1.0...v1.2.0) - 2025-10-09
+## [0.2.0](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/compare/0.1.0...0.2.0) - 2025-10-10
 
 ### Commits
 
-- docs: update CHANGELOG for release v1.1.0 [`424319d`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/424319d554cf6e6e909e10a72b67f2f178a7139f)
+- doc: update changelog [`e11d377`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/e11d377d6b01be59a3874680c59e4bca4f67b6bb)
 
-## [v1.1.0](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/compare/v1.0.0...v1.1.0) - 2025-10-09
-
-### Commits
-
-- docs: update CHANGELOG for release v1.0.0 [`6348a14`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/6348a147e70948ee5593be5b082582905bd2fb7a)
-
-## v1.0.0 - 2025-09-30
+## 0.1.0 - 2025-10-10
 
 ### Commits
 
-- fix namespace error on boot [`a5c4d94`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/a5c4d943b09f04f9ba40997bbcfb6d4d24f73107)
-- fix namespace error on boot [`f84582d`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/f84582dbeb579c3d9273e1ca1325534fc584f12e)
-- fix namespace error on boot [`485b529`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/485b529e63391663a2df385141a1469d92812772)
-- change role_path and scenario on molecule [`bea5002`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/bea5002ddfee61645239e15abdd24363bb9fa14e)
-- add latest feature for version [`ca73535`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/ca7353554208727b6242d66bc7c1ebcf94b92594)
-- changes on molecule [`e8b3a0f`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/e8b3a0f65050c55fbf6ea81fb65ff4d128bc9974)
-- rebuild role with multiple install possibilities + benchmark [`92af1d6`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/92af1d63cade6d254ae541290cddca5ce0e9003d)
-- rebuild role with multiple install possibilities + benchmark [`d5df7d6`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/d5df7d6230d84b6517f0de213882b44e398532e9)
-- rebuild role with multiple install possibilities + benchmark [`a48b4fb`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/a48b4fb55ae197a3bb416e4c323a97f8e9b398c6)
-- rebuild role with multiple install possibilities + benchmark [`8dd4dc9`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/8dd4dc9823c90bf2e7aead00b10b8f4bc54a3d3f)
+- fix molecule paralelism and little updates [`fa3d720`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/fa3d7209188ea5afdcc61f951496a1c34ce91d63)
+- update pre-commint and lint [`16c452a`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/16c452aae8ccd7c2cd41fabc61a57011760deb3e)
+- add support for ubuntu24 [`48cdfbb`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/48cdfbbeda8349b8b331ed009fa208d863809345)
+- lint [`38d782f`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/38d782f7badd373fe0f127f38f342e320db8a2e7)
+- add version on molecule play image to maintain support on old release [`93cca4e`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/93cca4ebba6a1ca9d04cb41eedf5d574541d5399)
+- lint [`a525c99`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/a525c998064a31a0e65aa984a8b3e74d2f7be1e8)
+- remove support for debian10 / ubuntu18 / redhat8 [`de60dbe`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/de60dbe6af16ff53824f3f283ae98153c9f87b04)
+- update molecule [`befad9e`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/befad9e219eeaf88518b4260356cac10b1d1e32f)
+- change templatei user [`258355e`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/258355e876340fb178142b2d880ad66c5553a57f)
+- change templatei user [`cd1f8c3`](https://gitlab.pleal.ovh/ansible-roles_base/ansible-apps_chrony_exporter/commit/cd1f8c357b140ce11f5e92f9df254fed64ec7a55)

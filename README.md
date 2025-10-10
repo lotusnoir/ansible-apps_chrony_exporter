@@ -22,10 +22,6 @@
 ## Description
 
 Configures the time server chrony exporter [chrony_exporter](https://github.com/SuperQ/chrony_exporter)
-
-install time = 1/run 21.06s -  2/run 6.23s
-
-
 ## Requirements
 
 none
@@ -43,6 +39,7 @@ See [variables](/defaults/main.yml) for more details.
           gather_facts: true
           roles:
             - role: ansible-apps_chrony_exporter
+
 
 ## License
 
