@@ -16,7 +16,6 @@
             that:
               - "ansible_facts.services['chrony_exporter.service'].state == 'running'"
 
-
         - name: Collect ports as facts
           community.general.listen_ports_facts:
 
@@ -24,6 +23,7 @@
           ansible.builtin.assert:
             that:
               - "9101 in ansible_facts.tcp_listen | map(attribute='port')"
+
         - name: Check urls code
           ansible.builtin.uri:
             url: http://localhost:9101/metrics
