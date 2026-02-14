@@ -26,7 +26,9 @@
     - chrony_exporter_install_origin == "internet"
 
 - name: "Install tasks"
-  when: (not __installed_bin.stat.exists) or (__installed_version is defined and chrony_exporter_version not in __installed_version.stdout) or chrony_exporter_install_force
+  when: (not __installed_bin.stat.exists) or
+      (__installed_version is defined and chrony_exporter_version not in __installed_version.stdout) or
+      chrony_exporter_install_force
   block:
     - name: "Create user"
       ansible.builtin.include_tasks: create_user.yml
@@ -65,6 +67,11 @@
         dest: "{{ chrony_exporter_temp_dir }}/{{ chrony_exporter_pkg_name }}"
         timeout: 60
         mode: "0644"
+        force: true
+      register: __pkg_result
+      retries: 12
+      delay: 10
+      until: __pkg_result is success
       when:
         - chrony_exporter_install_origin == "internet"
         - chrony_exporter_dl_executor == "host"
